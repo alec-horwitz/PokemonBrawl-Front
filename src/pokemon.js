@@ -2,10 +2,10 @@ let Pokemon = (function Pokemon() {
   all = []
   return class Pokemon {
 
-    constructor(name, images) {
+    constructor(name, front, back) {
       this.name = name
-      this.frontImage = images["front"]
-      this.backImage = images["back"]
+      this.frontImage = front
+      this.backImage = back
       all.push(this)
     }
 
