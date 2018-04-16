@@ -16,6 +16,9 @@ let Listener = (function Listener() {
         if (match.length < 1) {
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           pickTitle.innerText = "PICK YOUR OPPONENT:"
+        } else {
+          match.push(Pokemon.findByName(e.target.dataset.pokename))
+          pickTitle.innerText = "PICK YOUR OPPONENT:"
         }
       })
     }

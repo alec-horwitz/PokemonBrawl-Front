@@ -6,7 +6,7 @@ class Adapter {
 
       const pokemonContainer = document.getElementById('pokemon-container')
       pokemonContainer.innerHTML=""
-      
+
       for (var i in Pokemon.all()) {
         pokemonContainer.innerHTML += Pokemon.all()[i].render()
       }
