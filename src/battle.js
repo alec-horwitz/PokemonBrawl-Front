@@ -4,21 +4,29 @@ class Battle {
     this.pokemon2 = pokemon2
   }
 
-  render() {
+  renderMatch() {
+    this.pokemon1.health = 100
+    this.pokemon2.health = 100
     return `
     <div id="pokemon-1" class="pokemon-frame">
-    <h1 class="center-text" data-pokename="${this.pokemon1.name}">${this.pokemon1.name}</h1>
-    <div style="width:96px;margin:auto" data-pokename="${this.pokemon1.name}">
-    <img id="${this.pokemon1.name}-front" data-pokename="${this.pokemon1.name}" src="${this.pokemon1.frontImage}" style="display:none">
-    <img id="${this.pokemon1.name}-back" data-pokename="${this.pokemon1.name}" src="${this.pokemon1.backImage}" style="display:block">
-    </div>
+      <h1 class="center-text" data-pokename="${this.pokemon1.name}">${this.pokemon1.name}</h1>
+      <div style="width:96px;margin:auto">
+        <img id="${this.pokemon1.id}-back" src="${this.pokemon1.backImage}" style="display:block">
+      </div>
     </div>
     <div id="pokemon-2" class="pokemon-frame">
-    <h1 class="center-text" data-pokename="${this.pokemon2.name}">${this.pokemon2.name}</h1>
-    <div style="width:96px;margin:auto" data-pokename="${this.pokemon2.name}">
-    <img id="${this.pokemon2.name}-front" data-pokename="${this.pokemon2.name}" src="${this.pokemon2.frontImage}" style="display:block">
-    <img id="${this.pokemon2.name}-back" data-pokename="${this.pokemon2.name}" src="${this.pokemon2.backImage}" style="display:none">
+      <h1 class="center-text">${this.pokemon2.name}</h1>
+      <div style="width:96px;margin:auto">
+        <img id="${this.pokemon2.id}-front" src="${this.pokemon2.frontImage}" style="display:block">
+      </div>
     </div>
+    `
+  }
+
+  renderMoves() {
+    return `
+    <div>
+    <button id=${this.pokemon1.moves()[0].id} class="move">${this.pokemon1.moves()[0].name}</button>
     </div>
     `
   }

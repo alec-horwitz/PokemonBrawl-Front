@@ -51,10 +51,21 @@ input:focus {
   color:#2d72fc;
 }
 
+#battle-container {
+  position: relative;
+}
+
 #pokemon-1 {
   float: left;
+  top: 0;
 }
 
 #pokemon-2 {
   float: right;
+  top: 0;
+}
+
+.move {
+  float: left;
+  bottom: 0;
 }
