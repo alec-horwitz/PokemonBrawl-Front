@@ -5,9 +5,12 @@ let Listener = (function Listener() {
   let battleContainer
   let matchContainer
   let moveContainer
+  let health2
+  let health1
   let game = new Game("default", 0)
-  let cpuPower = 39
+  let cpuPower = 0
   let powerRate = 5
+
   return class Listener {
 
 
@@ -48,32 +51,35 @@ let Listener = (function Listener() {
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
       moveContainer.innerHTML = battle.renderMoves()
+      health2 = document.getElementById("health-2")
 
       const moveButton = document.getElementsByClassName('move')[0]
       moveButton.addEventListener("click", e => {
         let move = Move.all().find(move => parseInt(e.target.id)=== move.id)
         if (this.match()[1].health > move.power) {
           this.match()[1].health = this.match()[1].health - parseInt(move.power)
-          console.log(`CPU: ${this.match()[1].health}`);
+          health2.value = this.match()[1].health;
+          // console.log(`CPU: ${this.match()[1].health}`);
         } else {
           clearInterval(attackInterval)
           this.battleOver(true)
         }
       })
       let attackInterval = setInterval(() => {
+        health1 = document.getElementById("health-2")
         if (this.match()[0].health > cpuPower) {
           this.match()[0].health = this.match()[0].health - cpuPower
-          console.log(`Player: ${this.match()[0].health}`);
+          health1.value = this.match()[0].health;
+          // console.log(`Player: ${this.match()[0].health}`);
         } else {
           clearInterval(attackInterval)
           this.battleOver(false)
         }}, 500)
 
-
     }
 
     static battleOver(userWon) {
-      console.log(`DPS: ${cpuPower}`);
+      // console.log(`DPS: ${cpuPower}`);
       moveContainer.innerHTML = ""
       if (userWon) {
         game.score += this.match()[1].pointsOnWin + this.match()[0].health
@@ -94,7 +100,7 @@ let Listener = (function Listener() {
         playerSubmit.addEventListener("submit", function(e) {
           e.preventDefault()
           playerFormDiv.innerHTML = ""
-          console.log(playerInput.value);
+          // console.log(playerInput.value);
           game.name = playerInput.value
           Game.renderScores()
           Adapter.postGames(game.name, game.score)
