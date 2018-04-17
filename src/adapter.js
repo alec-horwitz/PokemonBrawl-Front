@@ -18,4 +18,23 @@ class Adapter {
       json.forEach(move => new Move(move.name, move.power, move.pokemon_id, move.id))
     })
   }
+
+  static getGames() {
+    fetch("http://localhost:3000/api/v1/games").then(res => res.json()).then(json => {
+      json.forEach(game => new Game(game.playername, game.score))
+    })
+  }
+  static postGames(name, score) {
+    fetch("http://localhost:3000/api/v1/games", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({playername: name, score: score})
+    }).then(res => res.json()).then(json => {
+      if (json.playername) {
+        console.log(`SUCCESS: ${json.playername}`);
+      } else {
+        console.log(`ERROR: ${json.playername}`);
+      }
+    })
+  }
 }
