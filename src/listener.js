@@ -8,7 +8,7 @@ let Listener = (function Listener() {
   let health2
   let health1
   let game = new Game("default", 0)
-  let cpuPower = 0
+  let cpuPower = 1
   let powerRate = 5
 
   return class Listener {
@@ -66,7 +66,7 @@ let Listener = (function Listener() {
         }
       })
       let attackInterval = setInterval(() => {
-        health1 = document.getElementById("health-2")
+        health1 = document.getElementById("health-1")
         if (this.match()[0].health > cpuPower) {
           this.match()[0].health = this.match()[0].health - cpuPower
           health1.value = this.match()[0].health;
