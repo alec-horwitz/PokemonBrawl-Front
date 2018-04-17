@@ -30,14 +30,14 @@ let Listener = (function Listener() {
           pokemonContainer.innerHTML = ""
           matchContainer.innerHTML = battle.renderMatch()
           moveContainer.innerHTML = battle.renderMoves()
-          this.Attack()
-          this.AIattack()
+          this.attack()
+          // this.aiAttack()
           pickTitle.innerText = "FIGHT!"
         }
       })
     }
 
-    static Attack() {
+    static attack() {
       const moveButton = document.getElementsByClassName('move')[0]
       moveButton.addEventListener("click", e => {
         if (this.match()[1].health > 0) {
@@ -45,31 +45,59 @@ let Listener = (function Listener() {
           this.match()[1].health = this.match()[1].health - parseInt(move.power)
           console.log(`pokemon 2 health is ${this.match()[1].health}`)
         } else {
-          this.UserWon(`${this.match()[0].name}`)
+          clearInterval(attackInterval)
+          this.battleOver(true)
         }
       })
-    }
-
-    static AIattack() {
       let attackInterval = setInterval(() => {
         if (this.match()[0].health > 0 && this.match()[1].health > 0) {
-          this.match()[0].health = this.match()[0].health - 1
+          this.match()[0].health = this.match()[0].health - 20
           console.log(`pokemon 1 health is ${this.match()[0].health}`)
         } else {
           clearInterval(attackInterval)
-          this.UserWon(`${this.match()[1].name}`)
+          this.battleOver(false)
         }}, 500)
-
     }
 
-    static UserWon(string) {
+    // static aiAttack() {
+    //
+    // }
+
+    static battleOver(userWon) {
+      const pokemonContainer = document.getElementById('pokemon-container')
       const matchContainer = document.getElementById('match-container')
       const moveContainer = document.getElementById('move-container')
       const pickTitle = document.getElementById('PICK')
-      match.pop()
-      matchContainer.innerHTML = ""
       moveContainer.innerHTML = ""
-      pickTitle.innerText = ""
+      if (userWon) {
+        let score = this.match()[1].pointsOnWin + this.match()[0].health
+        pickTitle.innerText = `Congrads You Won With A Score Of: ${score}`
+        matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> CONTINUE?
+        </p>`
+        document.getElementById('CONTINUE').addEventListener("click", e => {
+          matchContainer.innerHTML = ""
+          match.pop()
+          pickTitle.innerText = "PICK YOUR OPPONENT:"
+          // debugger
+          for (var i in Pokemon.all()) {
+            pokemonContainer.innerHTML += Pokemon.all()[i].render()
+          }
+        })
+      } else {
+        match.pop()
+        pickTitle.innerText = "DEFEATED!!! You Don't Life Good!"
+        matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> Try Again?
+        </p>`
+        document.getElementById('CONTINUE').addEventListener("click", e => {
+          matchContainer.innerHTML = ""
+          match.pop()
+          pickTitle.innerText = "PICK YOUR POKEMON:"
+          // debugger
+          for (var i in Pokemon.all()) {
+            pokemonContainer.innerHTML += Pokemon.all()[i].render()
+          }
+        })
+      }
     }
   }
 })()

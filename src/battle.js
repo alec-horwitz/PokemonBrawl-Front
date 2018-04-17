@@ -7,6 +7,7 @@ class Battle {
   renderMatch() {
     this.pokemon1.health = 100
     this.pokemon2.health = 100
+    this.pokemon2.pointsOnWin = this.pokemon2.health
     return `
     <div id="pokemon-1" class="pokemon-frame">
       <h1 class="center-text" data-pokename="${this.pokemon1.name}">${this.pokemon1.name}</h1>
