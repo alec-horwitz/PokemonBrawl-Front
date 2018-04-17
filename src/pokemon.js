@@ -40,5 +40,14 @@ let Pokemon = (function Pokemon() {
       return Move.all().filter(move => move.pokemonId === this.id)
     }
 
+    static delete(id) {
+      if ((id > 0) && (id < all.length+1)) {
+        all = [...all.slice(0,id-1),...all.slice(id)]
+        return [...all]
+      } else {
+        console.log("ERROR: Bad Input!!!")
+      }
+    }
+
   }
 })()

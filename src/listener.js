@@ -77,6 +77,7 @@ let Listener = (function Listener() {
         document.getElementById('CONTINUE').addEventListener("click", e => {
           matchContainer.innerHTML = ""
           match.pop()
+          Pokemon.delete(Pokemon.all().length)
           pickTitle.innerText = "PICK YOUR OPPONENT:"
           // debugger
           for (var i in Pokemon.all()) {
@@ -91,6 +92,7 @@ let Listener = (function Listener() {
         document.getElementById('CONTINUE').addEventListener("click", e => {
           matchContainer.innerHTML = ""
           match.pop()
+          Pokemon.delete(Pokemon.all().length)
           pickTitle.innerText = "PICK YOUR POKEMON:"
           // debugger
           for (var i in Pokemon.all()) {
