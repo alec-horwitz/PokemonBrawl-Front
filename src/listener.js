@@ -62,7 +62,7 @@ let Listener = (function Listener() {
       //Grab Pokemon for battle
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
-      moveContainer.innerHTML = battle.renderAllMoves()
+      moveContainer.innerHTML = battle.pokemon1.renderAllMoves()
       health2 = document.getElementById("health-2")
       const moveButton = document.getElementsByClassName('move')
       for (let i=0; i<moveButton.length; i++) {
@@ -70,8 +70,15 @@ let Listener = (function Listener() {
         moveButton[i].addEventListener("click", e => {
           let move
           move = Move.all().find(move => parseInt(e.target.id)=== move.id)
+          let hitChance = Math.floor((Math.random() * 100))
+          if (hitChance>move.accuracy) {
+            hitChance = 0
+          } else {
+            hitChance = 1
+          }
+          console.log(`Player: ${hitChance}`);
           if (that.match()[1].health > move.power) {
-            that.match()[1].health = that.match()[1].health - parseInt(move.power)
+            that.match()[1].health = that.match()[1].health - parseInt(move.power)*hitChance
             health2.value = that.match()[1].health;
             that.aiAttack()
           } else {
@@ -84,15 +91,27 @@ let Listener = (function Listener() {
     }
 
     static aiAttack () {
-        health1 = document.getElementById("health-1")
-        if (this.match()[0].health > cpuPower) {
-          this.match()[0].health = this.match()[0].health - cpuPower
-          health1.value = this.match()[0].health;
-        } else {
-          // clearInterval(attackInterval)
-          this.battleOver(false)
-        }
-        console.log(`my health: ${health1.value}`)
+      battle.pokemon2.renderAllMoves()
+      let allAiMoves = battle.pokemon2.movesset
+      let attackSelect = Math.floor((Math.random() * allAiMoves.length) + 1);
+      move = battle.pokemon2.moves()[attackSelect]
+      let hitChance = Math.floor((Math.random() * 100))
+      if (hitChance>move.accuracy) {
+        hitChance = 0
+      } else {
+        hitChance = 1
+      }
+      console.log(`cpu: ${hitChance}`);
+      let attackDamage = (parseInt(move.power) * hitChance)
+      health1 = document.getElementById("health-1")
+      if (this.match()[0].health > cpuPower) {
+        this.match()[0].health = this.match()[0].health - attackDamage
+        health1.value = this.match()[0].health;
+      } else {
+        // clearInterval(attackInterval)
+        this.battleOver(false)
+      }
+      console.log(`my health: ${health1.value}`)
     }
 
     static battleOver(userWon) {

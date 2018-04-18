@@ -21,32 +21,4 @@ class Battle {
     </div>
     `
   }
-
-  renderAllMoves() {
-    if (!this.pokemon1.moveset) {
-      let numberofmoves = this.pokemon1.moves().length
-      let arrayofmoves = []
-      for (let i=0; i<4; i++){
-        let move = Math.floor((Math.random() * numberofmoves) + 1);
-        if (arrayofmoves.includes(move)) {
-          i--
-        } else {
-          arrayofmoves.push(move)
-        }
-      }
-      this.pokemon1.moveset = arrayofmoves
-    }
-    return `
-    <div>
-    ${this.pokemon1.moveset.map(move => this.renderMove(move)).join('')}
-    </div>
-    `
-  }
-
-  renderMove(i) {
-    // console.log(i)
-    return `
-    <button id=${this.pokemon1.moves()[i].id} class="move">${this.pokemon1.moves()[i].name}</button>
-    `
-  }
 }

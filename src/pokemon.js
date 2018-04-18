@@ -50,5 +50,36 @@ let Pokemon = (function Pokemon() {
       }
     }
 
+    renderAllMoves() {
+      if (!this.moveset) {
+        let numberofmoves = this.moves().length
+        let arrayofmoves = []
+        for (let i=0; i<4; i++){
+          let move = Math.floor((Math.random() * numberofmoves) + 1);
+          if (arrayofmoves.includes(move)) {
+            i--
+          } else {
+            arrayofmoves.push(move)
+          }
+        }
+        this.moveset = arrayofmoves
+      }
+      if (!document.getElementsByClassName("move").length) {
+        return `
+        <div>
+        ${this.moveset.map(move => this.renderMove(move)).join('')}
+        </div>
+        `
+      }
+    }
+
+    renderMove(i) {
+      // debugger
+      // console.log(i)
+      return `
+      <button id=${this.moves()[i].id} class="move">${this.moves()[i].name}</button>
+      `
+    }
+
   }
 })()
