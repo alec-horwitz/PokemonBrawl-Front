@@ -114,8 +114,9 @@ let Listener = (function Listener() {
       if (this.match()[0].health > cpuPower) {
         this.match()[0].health = this.match()[0].health - attackDamage
         console.log(health1);
-        console.log(health1.value);
+        debugger
         health1.value = this.match()[0].health;
+        console.log(health1.value);
       } else {
         // clearInterval(attackInterval)
         this.battleOver(false)
