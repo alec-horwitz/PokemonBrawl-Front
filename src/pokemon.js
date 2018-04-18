@@ -76,7 +76,6 @@ let Pokemon = (function Pokemon() {
 
     renderMove(i) {
       // console.log(i)
-      debugger
       return `
       <button id=${this.moves()[i].id} class="move">${this.moves()[i].name}</button>
       `

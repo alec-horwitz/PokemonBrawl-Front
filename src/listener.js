@@ -102,7 +102,6 @@ let Listener = (function Listener() {
       let move_id
       let move
       move_id = this.match()[1].moveset[attackSelect]
-      debugger
       move = Move.all().find(move => move.id === move_id)
       let hitChance
       hitChance = Math.floor((Math.random() * 100))
