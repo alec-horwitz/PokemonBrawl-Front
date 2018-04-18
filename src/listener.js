@@ -71,16 +71,13 @@ let Listener = (function Listener() {
         moveButton[i].addEventListener("click", e => {
           let move
           move = Move.all().find(move => parseInt(e.target.id)=== move.id)
-          console.log(`my move ${move}`)
           let hitChance = Math.floor((Math.random() * 100))
           if (hitChance>move.accuracy) {
             hitChance = 0
           } else {
             hitChance = 1
           }
-          console.log(`Player: ${hitChance}`);
           if (that.match()[1].health > move.power) {
-            console.log(`my move.power ${move.power}`)
             that.match()[1].health = that.match()[1].health - parseInt(move.power)*hitChance
             health2.value = that.match()[1].health;
             that.aiAttack()
@@ -100,14 +97,11 @@ let Listener = (function Listener() {
       this.match()[1].moveset = pokeoriginal.moveset
       let allAiMoves = this.match()[1].moveset
       let attackSelect
-      attackSelect = Math.floor((Math.random() * allAiMoves.length) + 1);
+      attackSelect = Math.floor((Math.random() * allAiMoves.length - 1) + 1);
       let move_id
       let move
       move_id = this.match()[1].moveset[attackSelect]
-      console.log(pokeoriginal)
       move = Move.all().find(move => move.id === move_id)
-      console.log(`computer move ${move}`)
-      console.log(`computer move_id ${move_id}`)
       let hitChance
       hitChance = Math.floor((Math.random() * 100))
       if (hitChance>move.accuracy) {
@@ -115,17 +109,17 @@ let Listener = (function Listener() {
       } else {
         hitChance = 1
       }
-      console.log(`cpu: ${hitChance}`);
       let attackDamage = (parseInt(move.power) * hitChance)
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > cpuPower) {
         this.match()[0].health = this.match()[0].health - attackDamage
+        console.log(health1);
+        console.log(health1.value);
         health1.value = this.match()[0].health;
       } else {
         // clearInterval(attackInterval)
         this.battleOver(false)
       }
-      console.log(`my health: ${health1.value}`)
     }
 
     static battleOver(userWon) {
