@@ -71,6 +71,7 @@ let Listener = (function Listener() {
         moveButton[i].addEventListener("click", e => {
           let move
           move = Move.all().find(move => parseInt(e.target.id)=== move.id)
+          console.log(`my move ${move}`)
           let hitChance = Math.floor((Math.random() * 100))
           if (hitChance>move.accuracy) {
             hitChance = 0
@@ -79,6 +80,7 @@ let Listener = (function Listener() {
           }
           console.log(`Player: ${hitChance}`);
           if (that.match()[1].health > move.power) {
+            console.log(`my move.power ${move.power}`)
             that.match()[1].health = that.match()[1].health - parseInt(move.power)*hitChance
             health2.value = that.match()[1].health;
             that.aiAttack()
@@ -102,7 +104,10 @@ let Listener = (function Listener() {
       let move_id
       let move
       move_id = this.match()[1].moveset[attackSelect]
+      console.log(pokeoriginal)
       move = Move.all().find(move => move.id === move_id)
+      console.log(`computer move ${move}`)
+      console.log(`computer move_id ${move_id}`)
       let hitChance
       hitChance = Math.floor((Math.random() * 100))
       if (hitChance>move.accuracy) {
