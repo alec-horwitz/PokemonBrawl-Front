@@ -54,7 +54,7 @@ let Pokemon = (function Pokemon() {
         let numberofmoves = this.moves().length
         let arrayofmoves = []
         for (let i=0; i<4; i++){
-          let move = Math.floor((Math.random() * numberofmoves) + 1);
+          let move = Math.floor((Math.random() * numberofmoves) + 1)-1;
           if (arrayofmoves.includes(move)) {
             i--
           } else {

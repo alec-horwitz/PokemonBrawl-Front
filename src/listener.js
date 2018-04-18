@@ -78,7 +78,8 @@ let Listener = (function Listener() {
             hitChance = 1
           }
           if (that.match()[1].health > move.power) {
-            that.match()[1].health = that.match()[1].health - parseInt(move.power)*hitChance
+            that.match()[1].health = that.match()[1].health - move.power*hitChance
+            console.log(that.match()[1].health)
             health2.value = that.match()[1].health;
             that.aiAttack()
           } else {
@@ -109,14 +110,11 @@ let Listener = (function Listener() {
       } else {
         hitChance = 1
       }
-      let attackDamage = (parseInt(move.power) * hitChance)
+      let attackDamage = (move.power * hitChance)
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > cpuPower) {
         this.match()[0].health = this.match()[0].health - attackDamage
-        console.log(health1);
-        debugger
         health1.value = this.match()[0].health;
-        console.log(health1.value);
       } else {
         // clearInterval(attackInterval)
         this.battleOver(false)
