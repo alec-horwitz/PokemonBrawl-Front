@@ -18,8 +18,7 @@ class Adapter {
       json.forEach(move => new Move(move.name, move.power, move.pokemon_id, move.id))
     })
   }
-
-  static getGames() {
+    static getGames() {
     fetch("http://localhost:3000/api/v1/games").then(res => res.json()).then(json => {
       json.forEach(game => new Game(game.playername, game.score))
     })

@@ -8,14 +8,14 @@ let Listener = (function Listener() {
   let health2
   let health1
   let game = new Game("default", 0)
-  let cpuPower = 1
+  let cpuPower = 10
   let powerRate = 5
 
   return class Listener {
 
 
     static runAll() {
-      this.selectPokemon()
+      this.PickPokemon()
     }
 
     static match() {
@@ -23,24 +23,35 @@ let Listener = (function Listener() {
     }
 
     static selectPokemon() {
-      pickTitle = document.getElementById('PICK')
       pokemonContainer = document.getElementById('pokemon-container')
+
+      for (var i in Pokemon.all()) {
+        pokemonContainer.innerHTML += Pokemon.all()[i].render()
+      }
+    }
+
+
+    static PickPokemon() {
+      pickTitle = document.getElementById('PICK')
       battleContainer = document.getElementById('battle-container')
       matchContainer = document.getElementById('match-container')
       moveContainer = document.getElementById('move-container')
+      pokemonContainer = document.getElementById('pokemon-container')
+
+
       pokemonContainer.addEventListener("click", e => {
         if (match.length < 1) {
+          //PICK YOUR POKEMON
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           window.scrollTo(0,0);
           pickTitle.innerText = "PICK YOUR OPPONENT:"
         } else {
+          //CREATE COPY OF OPPONENT POKEMON
           let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
           let pokemon2 = new Pokemon(original.name, original.frontImage, original.backImage, Pokemon.all().length+1)
           match.push(pokemon2)
           let battle = new Battle(this.match()[0], this.match()[1])
           pokemonContainer.innerHTML = ""
-          matchContainer.innerHTML = battle.renderMatch()
-          moveContainer.innerHTML = battle.renderMoves()
           this.battleStart()
           pickTitle.innerText = "FIGHT!"
         }
@@ -48,34 +59,40 @@ let Listener = (function Listener() {
     }
 
     static battleStart() {
+      //Grab Pokemon for battle
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
-      moveContainer.innerHTML = battle.renderMoves()
+      moveContainer.innerHTML = battle.renderAllMoves()
       health2 = document.getElementById("health-2")
+      const moveButton = document.getElementsByClassName('move')
+      for (let i=0; i<moveButton.length; i++) {
+        let that = this
+        moveButton[i].addEventListener("click", e => {
+          let move
+          move = Move.all().find(move => parseInt(e.target.id)=== move.id)
+          if (that.match()[1].health > move.power) {
+            that.match()[1].health = that.match()[1].health - parseInt(move.power)
+            health2.value = that.match()[1].health;
+            that.aiAttack()
+          } else {
+            health2.value = 0
+            setTimeout(that.battleOver(true),2000);
+          }
 
-      const moveButton = document.getElementsByClassName('move')[0]
-      moveButton.addEventListener("click", e => {
-        let move = Move.all().find(move => parseInt(e.target.id)=== move.id)
-        if (this.match()[1].health > move.power) {
-          this.match()[1].health = this.match()[1].health - parseInt(move.power)
-          health2.value = this.match()[1].health;
-          // console.log(`CPU: ${this.match()[1].health}`);
-        } else {
-          clearInterval(attackInterval)
-          this.battleOver(true)
-        }
       })
-      let attackInterval = setInterval(() => {
+    }
+    }
+
+    static aiAttack () {
         health1 = document.getElementById("health-1")
         if (this.match()[0].health > cpuPower) {
           this.match()[0].health = this.match()[0].health - cpuPower
           health1.value = this.match()[0].health;
-          // console.log(`Player: ${this.match()[0].health}`);
         } else {
-          clearInterval(attackInterval)
+          // clearInterval(attackInterval)
           this.battleOver(false)
-        }}, 500)
-
+        }
+        console.log(`my health: ${health1.value}`)
     }
 
     static battleOver(userWon) {
@@ -83,11 +100,11 @@ let Listener = (function Listener() {
       moveContainer.innerHTML = ""
       if (userWon) {
         game.score += this.match()[1].pointsOnWin + this.match()[0].health
-        pickTitle.innerText = `Congrads You Won With A Score Of: ${game.score}`
+        pickTitle.innerText = `Congrats You Won With A Score Of: ${game.score}`
         matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> CONTINUE?</p>`
       } else {
         match.pop()
-        pickTitle.innerText = "DEFEATED!!! You Don't Life Good!"
+        pickTitle.innerText = "DEFEATED!!! You Lose!"
         matchContainer.innerHTML = `
         <p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> Try Again?</p>
         <div id="burnAfterReading"><form id="playerSubmission" class="playerSubmission" action="index.html" method="post">
@@ -115,12 +132,11 @@ let Listener = (function Listener() {
           cpuPower = cpuPower + powerRate
           pickTitle.innerText = "PICK YOUR OPPONENT:"
         } else {
-          game = new Game("default", 0)
+          // game = new Game("default", 0)
           pickTitle.innerText = "PICK YOUR POKEMON:"
+          match = []
         }
-        for (var i in Pokemon.all()) {
-          pokemonContainer.innerHTML += Pokemon.all()[i].render()
-        }
+        this.selectPokemon()
       })
     }
   }

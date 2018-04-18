@@ -8,6 +8,7 @@ let Pokemon = (function Pokemon() {
       this.backImage = back
       this.id = id
       all.push(this)
+      this.moveset = ""
     }
 
     render() {
