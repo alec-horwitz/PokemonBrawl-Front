@@ -62,6 +62,7 @@ let Listener = (function Listener() {
       //Grab Pokemon for battle
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
+      battle.pokemon1.randomizeMoveSet()
       moveContainer.innerHTML = battle.pokemon1.renderAllMoves()
       health2 = document.getElementById("health-2")
       const moveButton = document.getElementsByClassName('move')
@@ -91,11 +92,20 @@ let Listener = (function Listener() {
     }
 
     static aiAttack () {
-      battle.pokemon2.renderAllMoves()
-      let allAiMoves = battle.pokemon2.movesset
-      let attackSelect = Math.floor((Math.random() * allAiMoves.length) + 1);
-      move = battle.pokemon2.moves()[attackSelect]
-      let hitChance = Math.floor((Math.random() * 100))
+      let pokeoriginal
+      pokeoriginal = Pokemon.all().find(poke => poke.name === this.match()[1].name)
+      pokeoriginal.randomizeMoveSet()
+      this.match()[1].moveset = pokeoriginal.moveset
+      let allAiMoves = this.match()[1].moveset
+      let attackSelect
+      attackSelect = Math.floor((Math.random() * allAiMoves.length) + 1);
+      let move_id
+      let move
+      move_id = this.match()[1].moveset[attackSelect]
+      debugger
+      move = Move.all().find(move => move.id === move_id)
+      let hitChance
+      hitChance = Math.floor((Math.random() * 100))
       if (hitChance>move.accuracy) {
         hitChance = 0
       } else {

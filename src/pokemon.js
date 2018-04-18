@@ -49,8 +49,7 @@ let Pokemon = (function Pokemon() {
         console.log("ERROR: Bad Input!!!")
       }
     }
-
-    renderAllMoves() {
+    randomizeMoveSet() {
       if (!this.moveset) {
         let numberofmoves = this.moves().length
         let arrayofmoves = []
@@ -64,6 +63,8 @@ let Pokemon = (function Pokemon() {
         }
         this.moveset = arrayofmoves
       }
+    }
+    renderAllMoves() {
       if (!document.getElementsByClassName("move").length) {
         return `
         <div>
@@ -74,8 +75,8 @@ let Pokemon = (function Pokemon() {
     }
 
     renderMove(i) {
-      // debugger
       // console.log(i)
+      debugger
       return `
       <button id=${this.moves()[i].id} class="move">${this.moves()[i].name}</button>
       `
