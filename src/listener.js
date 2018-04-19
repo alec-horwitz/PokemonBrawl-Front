@@ -44,6 +44,7 @@ let Listener = (function Listener() {
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           window.scrollTo(0,0);
           pickTitle.innerText = "PICK YOUR OPPONENT:"
+        } else {
           //CREATE COPY OF OPPONENT POKEMON
           // let original = Pokemon.randomPokemon()
           let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
