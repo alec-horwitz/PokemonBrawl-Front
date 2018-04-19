@@ -210,9 +210,19 @@ input:focus {
   z-index: -1;
 }
 
-#score-container {
+#messageBox {
   position: absolute;
-  left: 425px;
-  top: 225px;
-  overflow:auto;
+  text-align: center;
+  left: 205px;
+  top: 482px;
+  z-index: 10;
+  background-color: white;
+  color: black;
+  width: 600px;
+  height: 104px;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  border: 2px solid #555555;
+  visibility: hidden;
 }

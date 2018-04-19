@@ -97,8 +97,8 @@ let Pokemon = (function Pokemon() {
     }
 
     renderMove(i) {
-      console.log(`[${i}`)
-      console.log(` has ${this.moves()[i]} with a id of ${this.moves()[i].id}]`);
+      // console.log(`[${i}`)
+      // console.log(` has ${this.moves()[i]} with a id of ${this.moves()[i].id}]`);
       return `
       <button id=${this.moves()[i].id} class="move">${this.moves()[i].name}</button>
       `

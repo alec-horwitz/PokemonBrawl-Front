@@ -52,8 +52,8 @@ let Listener = (function Listener() {
           match.push(pokemon2)
           let battle = new Battle(this.match()[0], this.match()[1])
           pokemonContainer.innerHTML = ""
-          this.battleStart()
           pickTitle.innerText = `A wild ${this.match()[1].name} appeared!`
+          this.battleStart()
         }
       })
     }
@@ -74,6 +74,7 @@ let Listener = (function Listener() {
           if (that.match()[1].health > move.power) {
             that.match()[1].health = that.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
             health2.value = that.match()[1].health;
+            Game.renderText(move, battle.pokemon1, Pokemon.typeMultiplier(move, battle.pokemon2))
             that.aiAttack()
           } else {
             health2.value = 0
@@ -105,6 +106,7 @@ let Listener = (function Listener() {
       if (this.match()[0].health > cpuPower) {
         this.match()[0].health = this.match()[0].health - attackDamage
         health1.value = this.match()[0].health;
+        // Game.renderText(move, battle.pokemon2, Pokemon.typeMultiplier(move, battle.pokemon3))
       } else {
         // clearInterval(attackInterval)
         this.battleOver(false)
@@ -132,6 +134,7 @@ let Listener = (function Listener() {
         playerSubmit.addEventListener("submit", function(e) {
           e.preventDefault()
           playerFormDiv.innerHTML = ""
+          // console.log(playerInput.value);
           game.name = playerInput.value
           Game.renderScores()
           Adapter.postGames(game.name, game.score)

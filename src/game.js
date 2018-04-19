@@ -15,17 +15,45 @@ let Game = (function Game() {
       return `<li class="pokemon-frame" style="margin:auto">${this.name}: ${this.score}</li>`
     }
     static renderScores() {
-      const scoreContainer = document.getElementById('score-container')
-      scoreContainer.innerHTML = `
+      const moveContainer = document.getElementById('move-container')
+      moveContainer.innerHTML = `
       <h1 class="pokemon-frame" style="margin:auto">SCORE BOARD</h1>
       <p class="pokemon-frame" style="margin:auto">| Name | Score |</p>
-      <ol id="scores" style="margin:auto"></ol>
+      <ol id="scoreBoard"class="pokemon-frame" style="margin:auto"></ol>
       `
-      const scores = document.getElementById('scores')
+      const scoreContainer = document.getElementById('scoreBoard')
+
       for (var i in this.all()) {
-        scores.innerHTML += this.all()[i].render()
+        scoreContainer.innerHTML += this.all()[i].render()
       }
     }
+
+  static renderText(move, attacker, effectiveness) {
+    console.log("In renderText");
+    let messageBox
+    messageBox = document.getElementById('messageBox')
+    messageBox.style.visibility = "visible"
+    console.log(`found ${messageBox.id}`);
+    messageBox.innerHTML = ""
+    if (effectiveness > 1) {
+      console.log("In renderText in if (effectiveness > 1)");
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It was super effective!</p>`
+    } else if (effectiveness > 0.5) {
+      console.log("In renderText in if (effectiveness > 0.5)")
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}.</p>`
+    } else if (effectiveness > 0) {
+      console.log("In renderText in if (effectiveness > 0)")
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It was not very effective!</p>`
+    } else {
+      console.log("In renderText in if (effectiveness == 0)")
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It had no effect!</p>`
+    }
+    setTimeout(function() {
+      // debugger
+      messageBox.innerHTML = ""
+      messageBox.style.visibility = "hidden"
+    }, 3000)
   }
 
+  }
 })()
