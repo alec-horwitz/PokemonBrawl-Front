@@ -24,7 +24,6 @@ let Listener = (function Listener() {
 
     static selectPokemon() {
       pokemonContainer = document.getElementById('pokemon-container')
-
       for (var i in Pokemon.all()) {
         pokemonContainer.innerHTML += Pokemon.all()[i].render()
       }
@@ -43,19 +42,22 @@ let Listener = (function Listener() {
           //PICK YOUR POKEMON
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           window.scrollTo(0,0);
-          pickTitle.innerText = "PICK YOUR OPPONENT:"
-        } else {
-          //CREATE COPY OF OPPONENT POKEMON
-          // let original = Pokemon.randomPokemon()
-          let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
-          let pokemon2 = new Pokemon(original.name, original.frontImage, original.backImage, Pokemon.all().length+1, original.type1, original.type2)
-          match.push(pokemon2)
-          let battle = new Battle(this.match()[0], this.match()[1])
-          pokemonContainer.innerHTML = ""
-          pickTitle.innerText = `A wild ${this.match()[1].name} appeared!`
-          this.battleStart()
         }
+        this.PickOpponent()
       })
+          // pickTitle.innerText = "PICK YOUR OPPONENT:"
+        // } else {
+          //CREATE COPY OF OPPONENT POKEMON
+    }
+
+    static PickOpponent() {
+        let original = Pokemon.randomPokemon()
+        // let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
+        let pokemon2 = new Pokemon(original.name, original.frontImage, original.backImage, Pokemon.all().length+1, original.type1, original.type2)
+        match.push(pokemon2)
+        pokemonContainer.innerHTML = ""
+        pickTitle.innerText = `A wild ${this.match()[1].name} appeared!`
+        this.battleStart()
     }
 
     static async battleStart() {
@@ -64,39 +66,38 @@ let Listener = (function Listener() {
       matchContainer.innerHTML = battle.renderMatch()
       battle.pokemon1.randomizeMoveSet()
       moveContainer.innerHTML = battle.pokemon1.renderAllMoves()
-      health2 = document.getElementById("health-2")
-      const moveButton = document.getElementsByClassName('move')
-      for (let i=0; i<moveButton.length; i++) {
-        let that = this
-        moveButton[i].addEventListener("click", e => {
+      let health2 = document.getElementById("health-2")
+      let moveButton = document.getElementsByClassName('move')
+      document.addEventListener("click", e => {
+        if (e.target.tagName === "BUTTON") {
           let move
           move = Move.all().find(move => parseInt(e.target.id)=== move.id)
-          if (that.match()[1].health > move.power) {
-            that.match()[1].health = that.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
-            health2.value = that.match()[1].health;
+          if (this.match()[1].health > move.power) {
+            this.match()[1].health = this.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
+            health2.value = this.match()[1].health;
             Game.renderText(move, battle.pokemon1, Pokemon.typeMultiplier(move, battle.pokemon2))
-            that.aiAttack()
+            this.aiAttack()
           } else {
             health2.value = 0
-            await Game.sleep(1000)
-            that.battleOver(true);
+            setTimeout(this.battleOver(true), 2000);
           }
-
+        }
       })
+      debugger
     }
-    }
+
 
     static async aiAttack () {
       await Game.sleep(1500)
       let pokeoriginal
+      let attackSelect
+      let move
+      let hitChance
       pokeoriginal = Pokemon.all().find(poke => poke.name === this.match()[1].name)
       pokeoriginal.randomizeMoveSet()
       let allAiMoves = pokeoriginal.moveset
-      let attackSelect
       attackSelect = Math.floor((Math.random() * allAiMoves.length - 1) + 1);
-      let move
       move = pokeoriginal.moves()[attackSelect]
-      let hitChance
       hitChance = Math.floor((Math.random() * 100))
       if (hitChance>move.accuracy) {
         hitChance = 0
@@ -151,14 +152,13 @@ let Listener = (function Listener() {
         match.pop()
         Pokemon.delete(Pokemon.all().length)
         if (userWon) {
-          cpuPower = cpuPower + powerRate
-          pickTitle.innerText = "PICK YOUR OPPONENT:"
+          this.PickOpponent()
         } else {
-          // game = new Game("default", 0)
           pickTitle.innerText = "PICK YOUR POKEMON:"
+          this.selectPokemon()
+          this.PickPokemon()
           match = []
         }
-        this.selectPokemon()
       })
     }
   }

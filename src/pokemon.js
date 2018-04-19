@@ -189,7 +189,7 @@ let Pokemon = (function Pokemon() {
             "poison": [""],
             "ice": [""]
           }
-          
+
       if (defender.type.includes("")){
         if (halfeffective[move.type].includes(defender.type1)) {
           return .5
