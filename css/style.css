@@ -213,6 +213,6 @@ input:focus {
 #score-container {
   position: absolute;
   left: 425px;
-  top: 25px;
+  top: 225px;
   overflow:auto;
 }
