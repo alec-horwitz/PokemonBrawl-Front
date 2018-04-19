@@ -52,22 +52,39 @@ let Pokemon = (function Pokemon() {
       }
     }
     randomizeMoveSet() {
-      if (!this.moveset || this.moves()<4) {
-        let numberofmoves = this.moves().length
-        let arrayofmoves = []
-        for (let i=0; i<4; i++){
-          let move = Math.floor((Math.random() * numberofmoves) + 1)-1;
-          if (arrayofmoves.includes(move)) {
-            i--
-          } else {
-            arrayofmoves.push(move)
+      // debugger
+      if (!this.moveset) {
+        if (this.moves().length>4) {
+          let numberofmoves = this.moves().length
+          let arrayofmoves = []
+          for (let i=0; i<4; i++){
+            let move = Math.floor((Math.random() * numberofmoves) + 1)-1;
+            if (arrayofmoves.includes(move)) {
+              i--
+            } else {
+              arrayofmoves.push(move)
+            }
           }
+          this.moveset = arrayofmoves
+          return this.moveset
         }
-        this.moveset = arrayofmoves
-        return this.moveset
+        else if (this.moves().length<4) {
+          let numberofmoves = this.moves().length
+          let arrayofmoves = []
+          if (this.moves().length < 2) {
+            arrayofmoves.push(0)
+          } else {
+            for (let i=0; i<numberofmoves; i++){
+              arrayofmoves.push(i)
+            }
+          }
+          this.moveset = arrayofmoves
+          console.log(`the array for numberofmoves ${arrayofmoves}`);
+          return this.moveset
+        }
       }
-      this.moveset = Array(4).fill(this.moves()[0])
-      return this.moveset
+      // this.moveset = Array(4).fill(this.moves()[0])
+      // return this.moveset
     }
     renderAllMoves() {
       if (!document.getElementsByClassName("move").length) {
@@ -80,6 +97,8 @@ let Pokemon = (function Pokemon() {
     }
 
     renderMove(i) {
+      console.log(`[${i}`)
+      console.log(` has ${this.moves()[i]} with a id of ${this.moves()[i].id}]`);
       return `
       <button id=${this.moves()[i].id} class="move">${this.moves()[i].name}</button>
       `
