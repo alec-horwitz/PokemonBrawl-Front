@@ -44,7 +44,6 @@ let Listener = (function Listener() {
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           window.scrollTo(0,0);
           pickTitle.innerText = "PICK YOUR OPPONENT:"
-        } else {
           //CREATE COPY OF OPPONENT POKEMON
           // let original = Pokemon.randomPokemon()
           let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
@@ -53,7 +52,7 @@ let Listener = (function Listener() {
           let battle = new Battle(this.match()[0], this.match()[1])
           pokemonContainer.innerHTML = ""
           this.battleStart()
-          pickTitle.innerText = "FIGHT!"
+          pickTitle.innerText = `A wild ${this.match()[1].name} appeared!`
         }
       })
     }
