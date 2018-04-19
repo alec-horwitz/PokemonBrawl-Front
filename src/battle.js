@@ -10,15 +10,21 @@ class Battle {
     this.pokemon2.pointsOnWin = this.pokemon2.health
     return `
     <div id="pokemon-1" class="battle-frame-1">
-      <img id="back" src="${this.pokemon1.backImage}">
-      <h1 class="center-text" data-pokename="${this.pokemon1.name}" id="back-name">${this.pokemon1.name}</h1>
-      <progress id="health-1" value="500" max="500"></progress>
+        <img id="back" src="${this.pokemon1.backImage}">
+      <div class="name-frame-1">
+        <h3 class="center-text" data-pokename="${this.pokemon1.name}" id="back-name">${this.pokemon1.name}</h1>
+        <progress id="health-1" value="500" max="500"></progress>
+      </div>
     </div>
     <div id="pokemon-2" class="battle-frame-2">
-      <h1 class="center-text" id="front-name">${this.pokemon2.name}</h1>
-      <progress id="health-2" value="500" max="500"></progress>
-      <img id="front" src="${this.pokemon2.frontImage}">
+        <img id="front" src="${this.pokemon2.frontImage}">
+      <div class="name-frame-2">
+        <h3 class="center-text" id="front-name">${this.pokemon2.name}</h1>
+        <progress id="health-2" value="500" max="500"></progress>
+      </div>
     </div>
     `
   }
+
+
 }

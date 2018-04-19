@@ -38,7 +38,6 @@ let Listener = (function Listener() {
       moveContainer = document.getElementById('move-container')
       pokemonContainer = document.getElementById('pokemon-container')
 
-
       pokemonContainer.addEventListener("click", e => {
         if (match.length < 1) {
           //PICK YOUR POKEMON
@@ -47,8 +46,9 @@ let Listener = (function Listener() {
           pickTitle.innerText = "PICK YOUR OPPONENT:"
         } else {
           //CREATE COPY OF OPPONENT POKEMON
+          // let original = Pokemon.randomPokemon()
           let original = Pokemon.all().find(pokemon => e.target.dataset.pokename == pokemon.name)
-          let pokemon2 = new Pokemon(original.name, original.frontImage, original.backImage, Pokemon.all().length+1)
+          let pokemon2 = new Pokemon(original.name, original.frontImage, original.backImage, Pokemon.all().length+1, original.type1, original.type2)
           match.push(pokemon2)
           let battle = new Battle(this.match()[0], this.match()[1])
           pokemonContainer.innerHTML = ""
@@ -71,20 +71,13 @@ let Listener = (function Listener() {
         moveButton[i].addEventListener("click", e => {
           let move
           move = Move.all().find(move => parseInt(e.target.id)=== move.id)
-          let hitChance = Math.floor((Math.random() * 100))
-          if (hitChance>move.accuracy) {
-            hitChance = 0
-          } else {
-            hitChance = 1
-          }
           if (that.match()[1].health > move.power) {
-            that.match()[1].health = that.match()[1].health - move.power*hitChance
-            console.log(that.match()[1].health)
+            that.match()[1].health = that.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
             health2.value = that.match()[1].health;
             that.aiAttack()
           } else {
             health2.value = 0
-            setTimeout(that.battleOver(true),2000);
+            setTimeout(that.battleOver(true),5000);
           }
 
       })
@@ -95,14 +88,11 @@ let Listener = (function Listener() {
       let pokeoriginal
       pokeoriginal = Pokemon.all().find(poke => poke.name === this.match()[1].name)
       pokeoriginal.randomizeMoveSet()
-      this.match()[1].moveset = pokeoriginal.moveset
-      let allAiMoves = this.match()[1].moveset
+      let allAiMoves = pokeoriginal.moveset
       let attackSelect
       attackSelect = Math.floor((Math.random() * allAiMoves.length - 1) + 1);
-      let move_id
       let move
-      move_id = this.match()[1].moveset[attackSelect]
-      move = Move.all().find(move => move.id === move_id)
+      move = pokeoriginal.moves()[attackSelect]
       let hitChance
       hitChance = Math.floor((Math.random() * 100))
       if (hitChance>move.accuracy) {
@@ -110,7 +100,7 @@ let Listener = (function Listener() {
       } else {
         hitChance = 1
       }
-      let attackDamage = (move.power * hitChance)
+      let attackDamage = (move.power * hitChance * Pokemon.typeMultiplier(move, this.match()[0]))
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > cpuPower) {
         this.match()[0].health = this.match()[0].health - attackDamage
@@ -122,7 +112,6 @@ let Listener = (function Listener() {
     }
 
     static battleOver(userWon) {
-      // console.log(`DPS: ${cpuPower}`);
       moveContainer.innerHTML = ""
       if (userWon) {
         game.score += this.match()[1].pointsOnWin + this.match()[0].health
