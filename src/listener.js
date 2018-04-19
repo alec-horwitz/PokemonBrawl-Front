@@ -62,7 +62,7 @@ let Listener = (function Listener() {
 
     static battleStart() {
       //Grab Pokemon for battle
-      let battle = new Battle(this.match()[0], this.match()[1])
+      window.battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
       battle.pokemon1.randomizeMoveSet()
       moveContainer.innerHTML = battle.pokemon1.renderAllMoves()
@@ -75,10 +75,11 @@ let Listener = (function Listener() {
           if (this.match()[1].health > move.power) {
             this.match()[1].health = this.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
             health2.value = this.match()[1].health;
-            Game.renderText(move, battle.pokemon1, Pokemon.typeMultiplier(move, battle.pokemon2))
+            Game.renderText(move, this.match()[0], Pokemon.typeMultiplier(move, battle.pokemon2))
             this.aiAttack()
           } else {
             health2.value = 0
+            debugger
             setTimeout(this.battleOver(true), 5000);
           }
         }
@@ -107,7 +108,6 @@ let Listener = (function Listener() {
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > attackDamage) {
         this.match()[0].health = this.match()[0].health - attackDamage
-        debugger
         health1.value = this.match()[0].health;
         Game.renderText(move, this.match()[1], Pokemon.typeMultiplier(move, this.match()[0]))
       } else {
@@ -126,6 +126,7 @@ let Listener = (function Listener() {
         matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> CONTINUE?</p>`
       } else {
         match.pop()
+        console.log(this.match()[0])
         pickTitle.innerText = `${this.match()[0].name} fainted!`
         matchContainer.innerHTML = `
         <p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> Try Again?</p>

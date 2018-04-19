@@ -1,7 +1,10 @@
+battles = []
+
 class Battle {
   constructor(pokemon1, pokemon2) {
     this.pokemon1 = pokemon1
     this.pokemon2 = pokemon2
+    battles.push(this)
   }
 
   renderMatch() {
