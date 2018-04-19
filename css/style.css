@@ -209,3 +209,10 @@ input:focus {
   margin:auto;
   z-index: -1;
 }
+
+#score-container {
+  position: absolute;
+  left: 425px;
+  top: 25px;
+  overflow:auto;
+}

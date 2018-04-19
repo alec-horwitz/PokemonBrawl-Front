@@ -27,12 +27,6 @@ class Adapter {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({playername: name, score: score})
-    }).then(res => res.json()).then(json => {
-      if (json.playername) {
-        console.log(`SUCCESS: ${json.playername}`);
-      } else {
-        console.log(`ERROR: ${json.playername}`);
-      }
     })
   }
 }

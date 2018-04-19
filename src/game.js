@@ -15,16 +15,15 @@ let Game = (function Game() {
       return `<li class="pokemon-frame" style="margin:auto">${this.name}: ${this.score}</li>`
     }
     static renderScores() {
-      const moveContainer = document.getElementById('move-container')
-      moveContainer.innerHTML = `
+      const scoreContainer = document.getElementById('score-container')
+      scoreContainer.innerHTML = `
       <h1 class="pokemon-frame" style="margin:auto">SCORE BOARD</h1>
       <p class="pokemon-frame" style="margin:auto">| Name | Score |</p>
-      <ol id="scoreBoard"class="pokemon-frame" style="margin:auto"></ol>
+      <ol id="scores" style="margin:auto"></ol>
       `
-      const scoreContainer = document.getElementById('scoreBoard')
-
+      const scores = document.getElementById('scores')
       for (var i in this.all()) {
-        scoreContainer.innerHTML += this.all()[i].render()
+        scores.innerHTML += this.all()[i].render()
       }
     }
   }

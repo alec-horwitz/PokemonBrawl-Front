@@ -132,7 +132,6 @@ let Listener = (function Listener() {
         playerSubmit.addEventListener("submit", function(e) {
           e.preventDefault()
           playerFormDiv.innerHTML = ""
-          // console.log(playerInput.value);
           game.name = playerInput.value
           Game.renderScores()
           Adapter.postGames(game.name, game.score)
