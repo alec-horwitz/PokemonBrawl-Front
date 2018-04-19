@@ -42,8 +42,8 @@ let Listener = (function Listener() {
           //PICK YOUR POKEMON
           match.push(Pokemon.findByName(e.target.dataset.pokename))
           window.scrollTo(0,0);
+          this.PickOpponent()
         }
-        this.PickOpponent()
       })
           // pickTitle.innerText = "PICK YOUR OPPONENT:"
         // } else {
@@ -60,7 +60,7 @@ let Listener = (function Listener() {
         this.battleStart()
     }
 
-    static async battleStart() {
+    static battleStart() {
       //Grab Pokemon for battle
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
@@ -79,11 +79,10 @@ let Listener = (function Listener() {
             this.aiAttack()
           } else {
             health2.value = 0
-            setTimeout(this.battleOver(true), 2000);
+            setTimeout(this.battleOver(true), 5000);
           }
         }
       })
-      debugger
     }
 
 
@@ -108,6 +107,7 @@ let Listener = (function Listener() {
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > attackDamage) {
         this.match()[0].health = this.match()[0].health - attackDamage
+        debugger
         health1.value = this.match()[0].health;
         Game.renderText(move, this.match()[1], Pokemon.typeMultiplier(move, this.match()[0]))
       } else {
