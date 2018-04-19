@@ -22,8 +22,11 @@ font-weight: 300;
 }
 
 #pokemon-logo {
-  width:300px;
-  margin-left:330px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  top: 125px;
+  width: 300px;
 }
 
 input:focus {
@@ -40,7 +43,7 @@ input:focus {
 }
 
 #pokemon-container {
-  z-index: 100;
+
   float: left;
   position: absolute;
   top: 200px;
@@ -49,8 +52,15 @@ input:focus {
 
 .center-text {
   text-align: center;
-  z-index: -1;
+  z-index: 5;
   top: 10px;
+}
+
+.title-text {
+  position: absolute;
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
 }
 
 .pokemon-frame {
@@ -132,7 +142,7 @@ input:focus {
 .move-container {
     width: 700px;
     height: 200px;
-    background: white;
+    /* background: white; */
     overflow-y: auto;
     position: absolute;
     top: 285px;
@@ -213,16 +223,64 @@ input:focus {
 #messageBox {
   position: absolute;
   text-align: center;
-  left: 205px;
-  top: 482px;
+  left: 200px;
+  top: 395px;
   z-index: 10;
   background-color: white;
   color: black;
-  width: 600px;
-  height: 104px;
+  width: 610px;
+  height: 114px;
   text-decoration: none;
   font-size: 16px;
   margin: 4px 2px;
   border: 2px solid #555555;
   visibility: hidden;
+}
+
+#score-container {
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  left: 320px;
+  top: 200px;
+  z-index:-200;
+}
+
+#playername {
+  position: absolute;
+  left: 433px;
+  text-align: center;
+  top: 75px;
+}
+
+#submitName {
+  left: 472px;
+  top: 105px;
+  text-align: center;
+  position:absolute;
+}
+
+th, tr {
+    text-align: left;
+}
+
+#score-header {
+  position: absolute;
+  left: 87px;
+  bottom: 494px;
+}
+
+#CONTINUE {
+  position:absolute;
+  width: 100%;
+  top: 25px;
+  width: 100%;
+}
+
+#submit-score{
+  position:absolute;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  top: 50px;
 }

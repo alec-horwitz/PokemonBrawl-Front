@@ -12,19 +12,23 @@ let Game = (function Game() {
     }
 
     render() {
-      return `<li class="pokemon-frame" style="margin:auto">${this.name}: ${this.score}</li>`
+      return `<tr><td>${this.name}:</td> <td>${this.score}</td></tr>`
     }
     static renderScores() {
-      const moveContainer = document.getElementById('move-container')
-      moveContainer.innerHTML = `
-      <h1 class="pokemon-frame" style="margin:auto">SCORE BOARD</h1>
-      <p class="pokemon-frame" style="margin:auto">| Name | Score |</p>
-      <ol id="scoreBoard"class="pokemon-frame" style="margin:auto"></ol>
+      const scoreContainer = document.getElementById('score-container')
+      scoreContainer.innerHTML = `
+      <h1 id="score-header"class="pokemon-frame" style="margin:auto">Score Board</h1>
+      <table id="score"style="width:100%">
+        <tr>
+          <th> Name </th>
+          <th> Score </th>
+        </tr>
+      <table>
       `
-      const scoreContainer = document.getElementById('scoreBoard')
+      const score = document.getElementById('score')
 
       for (var i in this.all()) {
-        scoreContainer.innerHTML += this.all()[i].render()
+        score.innerHTML += this.all()[i].render()
       }
     }
 
@@ -37,22 +41,27 @@ let Game = (function Game() {
     messageBox.innerHTML = ""
     if (effectiveness > 1) {
       console.log("In renderText in if (effectiveness > 1)");
-      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It was super effective!</p>`
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It was super effective!</p>`
     } else if (effectiveness > 0.5) {
       console.log("In renderText in if (effectiveness > 0.5)")
-      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}.</p>`
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}!</p>`
     } else if (effectiveness > 0) {
       console.log("In renderText in if (effectiveness > 0)")
-      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It was not very effective!</p>`
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It was not very effective!</p>`
     } else {
       console.log("In renderText in if (effectiveness == 0)")
-      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}. It had no effect!</p>`
+      messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It had no effect!</p>`
     }
+    
     setTimeout(function() {
       // debugger
       messageBox.innerHTML = ""
       messageBox.style.visibility = "hidden"
-    }, 3000)
+    }, 1500)
+  }
+
+  static sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   }

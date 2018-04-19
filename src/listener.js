@@ -58,7 +58,7 @@ let Listener = (function Listener() {
       })
     }
 
-    static battleStart() {
+    static async battleStart() {
       //Grab Pokemon for battle
       let battle = new Battle(this.match()[0], this.match()[1])
       matchContainer.innerHTML = battle.renderMatch()
@@ -78,14 +78,16 @@ let Listener = (function Listener() {
             that.aiAttack()
           } else {
             health2.value = 0
-            setTimeout(that.battleOver(true),5000);
+            await Game.sleep(1000)
+            that.battleOver(true);
           }
 
       })
     }
     }
 
-    static aiAttack () {
+    static async aiAttack () {
+      await Game.sleep(1500)
       let pokeoriginal
       pokeoriginal = Pokemon.all().find(poke => poke.name === this.match()[1].name)
       pokeoriginal.randomizeMoveSet()
@@ -103,12 +105,14 @@ let Listener = (function Listener() {
       }
       let attackDamage = (move.power * hitChance * Pokemon.typeMultiplier(move, this.match()[0]))
       health1 = document.getElementById("health-1")
-      if (this.match()[0].health > cpuPower) {
+      if (this.match()[0].health > attackDamage) {
         this.match()[0].health = this.match()[0].health - attackDamage
         health1.value = this.match()[0].health;
-        // Game.renderText(move, battle.pokemon2, Pokemon.typeMultiplier(move, battle.pokemon3))
+        Game.renderText(move, this.match()[1], Pokemon.typeMultiplier(move, this.match()[0]))
       } else {
-        // clearInterval(attackInterval)
+        this.match()[0].health = 0
+        health1.value = this.match()[0].health;
+        await Game.sleep(1000)
         this.battleOver(false)
       }
     }
@@ -121,10 +125,11 @@ let Listener = (function Listener() {
         matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> CONTINUE?</p>`
       } else {
         match.pop()
-        pickTitle.innerText = "DEFEATED!!! You Lose!"
+        pickTitle.innerText = `${this.match()[0].name} fainted!`
         matchContainer.innerHTML = `
         <p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> Try Again?</p>
         <div id="burnAfterReading"><form id="playerSubmission" class="playerSubmission" action="index.html" method="post">
+          <p id="submit-score">Or Submit Your Name to the Scoreboard:</p>
           <input id="playername" type="text" name="playername" value="">
           <input id="submitName" type="submit" name="submit" value="submit">
         </form></div>`

@@ -189,6 +189,7 @@ let Pokemon = (function Pokemon() {
             "poison": [""],
             "ice": [""]
           }
+          
       if (defender.type.includes("")){
         if (halfeffective[move.type].includes(defender.type1)) {
           return .5
@@ -202,9 +203,9 @@ let Pokemon = (function Pokemon() {
       } else {
         if (halfeffective[move.type].includes(defender.type1) || (halfeffective[move.type].includes(defender.type2))){
           return .5
-        } else if (doubleeffective[move.type].includes(defender.type1) || (halfeffective[move.type].includes(defender.type2))){
+        } else if (doubleeffective[move.type].includes(defender.type1) || (doubleeffective[move.type].includes(defender.type2))){
           return 2
-        }else if (zeroeffective[move.type].includes(defender.type1) || (halfeffective[move.type].includes(defender.type2))) {
+        }else if (zeroeffective[move.type].includes(defender.type1) || (zeroeffective[move.type].includes(defender.type2))) {
           return 0
         }else {
           return 1
