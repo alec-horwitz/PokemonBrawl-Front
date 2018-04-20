@@ -239,11 +239,9 @@ input:focus {
 
 #score-container {
   position: absolute;
-  width: 500px;
-  height: 500px;
-  left: 320px;
   top: 200px;
-  z-index:-200;
+  width: 100%;
+  z-index: -200;
 }
 
 #playername {
@@ -261,13 +259,12 @@ input:focus {
 }
 
 th, tr {
-    text-align: left;
+    margin: auto;
 }
 
 #score-header {
-  position: absolute;
-  left: 87px;
-  bottom: 494px;
+  text-align:center;
+
 }
 
 #CONTINUE {
@@ -283,4 +280,12 @@ th, tr {
   text-align: center;
   margin: 0 auto;
   top: 50px;
+}
+
+.individual-scores{
+  text-align: center;
+}
+
+.score-names {
+  text-align: center;
 }

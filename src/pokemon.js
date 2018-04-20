@@ -120,7 +120,8 @@ let Pokemon = (function Pokemon() {
             "flying": "images/colorless.png",
             "bug": "images/grass.png",
             "poison": "images/psychic.png",
-            "ice": "images/water.png"}
+            "ice": "images/water.png",
+            "fairy": "images/colorless.png"}
 
         if (type.includes("")) {
           return cardObj[type[0]]

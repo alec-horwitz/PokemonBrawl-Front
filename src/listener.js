@@ -8,8 +8,7 @@ let Listener = (function Listener() {
   let health2
   let health1
   let game = new Game("default", 0)
-  let cpuPower = 10
-  let powerRate = 5
+  firstplaydone = false
 
   return class Listener {
 
@@ -63,27 +62,36 @@ let Listener = (function Listener() {
     static battleStart() {
       //Grab Pokemon for battle
       window.battle = new Battle(this.match()[0], this.match()[1])
-      matchContainer.innerHTML = battle.renderMatch()
       battle.pokemon1.randomizeMoveSet()
       moveContainer.innerHTML = battle.pokemon1.renderAllMoves()
       let health2 = document.getElementById("health-2")
       let moveButton = document.getElementsByClassName('move')
-      document.addEventListener("click", e => {
-        if (e.target.tagName === "BUTTON") {
-          let move
-          move = Move.all().find(move => parseInt(e.target.id)=== move.id)
-          if (this.match()[1].health > move.power) {
-            this.match()[1].health = this.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
-            health2.value = this.match()[1].health;
-            Game.renderText(move, this.match()[0], Pokemon.typeMultiplier(move, battle.pokemon2))
-            this.aiAttack()
-          } else {
-            health2.value = 0
-            debugger
-            setTimeout(this.battleOver(true), 5000);
+      matchContainer.innerHTML = battle.renderMatch()
+      if (!firstplaydone) {
+        document.addEventListener("click", e => {
+          if (e.target.tagName === "BUTTON") {
+            let move
+            move = Move.all().find(move => parseInt(e.target.id)=== move.id)
+            if (this.match()[1].health > move.power) {
+              // console.log("NEW TURN")
+              // console.log(`opponent health: ${match[1].health}`)
+              // console.log(`my move: ${move.name}`)
+              // console.log(`my move damage: ${move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)}`)
+              // console.log(`opponent health after damage: ${match[1].health} - ${move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)}`)
+              // console.log("----");
+              health2 = document.getElementById("health-2")
+              this.match()[1].health = this.match()[1].health - move.power*move.hitChance()*Pokemon.typeMultiplier(move, battle.pokemon2)
+              health2.value = this.match()[1].health;
+              console.log(health2)
+              Game.renderText(move, this.match()[0], Pokemon.typeMultiplier(move, battle.pokemon2))
+              this.aiAttack()
+            } else {
+              health2.value = 0
+              setTimeout(this.battleOver(true), 5000);
+            }
           }
-        }
-      })
+        })
+      }
     }
 
 
@@ -107,6 +115,10 @@ let Listener = (function Listener() {
       let attackDamage = (move.power * hitChance * Pokemon.typeMultiplier(move, this.match()[0]))
       health1 = document.getElementById("health-1")
       if (this.match()[0].health > attackDamage) {
+        console.log(`my health: ${match[0].health}`)
+        console.log(`opponent move: ${move.name}`)
+        console.log(`my health after damage: ${match[0].health}`)
+        console.log("------");
         this.match()[0].health = this.match()[0].health - attackDamage
         health1.value = this.match()[0].health;
         Game.renderText(move, this.match()[1], Pokemon.typeMultiplier(move, this.match()[0]))
@@ -126,7 +138,7 @@ let Listener = (function Listener() {
         matchContainer.innerHTML = `<p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> CONTINUE?</p>`
       } else {
         match.pop()
-        console.log(this.match()[0])
+        // console.log(this.match()[0])
         pickTitle.innerText = `${this.match()[0].name} fainted!`
         matchContainer.innerHTML = `
         <p id="CONTINUE" class="pokemon-frame center-text" style="margin:auto;"> Try Again?</p>
@@ -148,11 +160,15 @@ let Listener = (function Listener() {
         })
       }
       document.getElementById('CONTINUE').addEventListener("click", e => {
+        let scoreContainer = document.getElementById('score-container')
         moveContainer.innerHTML = ""
         matchContainer.innerHTML = ""
+        scoreContainer.innerHTML = ""
         match.pop()
+        console.log(match);
         Pokemon.delete(Pokemon.all().length)
         if (userWon) {
+          firstplaydone = true
           this.PickOpponent()
         } else {
           pickTitle.innerText = "PICK YOUR POKEMON:"

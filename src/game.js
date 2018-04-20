@@ -12,7 +12,7 @@ let Game = (function Game() {
     }
 
     render() {
-      return `<tr><td>${this.name}:</td> <td>${this.score}</td></tr>`
+      return `<tr><td class="score-names">${this.name}</td> <td class="individual-scores">${this.score}</td></tr>`
     }
     static renderScores() {
       const scoreContainer = document.getElementById('score-container')
@@ -33,26 +33,26 @@ let Game = (function Game() {
     }
 
   static renderText(move, attacker, effectiveness) {
-    console.log("In renderText");
+    // console.log("In renderText");
     let messageBox
     messageBox = document.getElementById('messageBox')
     messageBox.style.visibility = "visible"
-    console.log(`found ${messageBox.id}`);
+    // console.log(`found ${messageBox.id}`);
     messageBox.innerHTML = ""
     if (effectiveness > 1) {
-      console.log("In renderText in if (effectiveness > 1)");
+      // console.log("In renderText in if (effectiveness > 1)");
       messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It was super effective!</p>`
     } else if (effectiveness > 0.5) {
-      console.log("In renderText in if (effectiveness > 0.5)")
+      // console.log("In renderText in if (effectiveness > 0.5)")
       messageBox.innerHTML = `<p>${attacker.name} used ${move.name}!</p>`
     } else if (effectiveness > 0) {
-      console.log("In renderText in if (effectiveness > 0)")
+      // console.log("In renderText in if (effectiveness > 0)")
       messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It was not very effective!</p>`
     } else {
-      console.log("In renderText in if (effectiveness == 0)")
+      // console.log("In renderText in if (effectiveness == 0)")
       messageBox.innerHTML = `<p>${attacker.name} used ${move.name}! It had no effect!</p>`
     }
-    
+
     setTimeout(function() {
       // debugger
       messageBox.innerHTML = ""
