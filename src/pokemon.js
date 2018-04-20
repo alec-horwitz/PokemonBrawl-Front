@@ -79,7 +79,6 @@ let Pokemon = (function Pokemon() {
             }
           }
           this.moveset = arrayofmoves
-          console.log(`the array for numberofmoves ${arrayofmoves}`);
           return this.moveset
         }
       }
@@ -219,4 +218,5 @@ let Pokemon = (function Pokemon() {
     }
 
   }
-})()
+}
+)()
