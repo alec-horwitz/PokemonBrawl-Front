@@ -79,7 +79,7 @@ let Pokemon = (function Pokemon() {
             }
           }
           this.moveset = arrayofmoves
-          console.log(`the array for numberofmoves ${arrayofmoves}`);
+          // console.log(`the array for numberofmoves ${arrayofmoves}`);
           return this.moveset
         }
       }
@@ -153,7 +153,10 @@ let Pokemon = (function Pokemon() {
             "flying": ["electric", "rock"],
             "bug": ["fire", "flying", "fighting"],
             "poison": ["poison", "ground", "rock", "ghost"],
-            "ice": ["water","ice"]
+            "ice": ["water","ice"],
+            "dark": ["fighting", "dark", "fairy"],
+            "steel": ["fire", "water", "electric", "steel"],
+            "fairy": ["fire", "poison", "steel"]
           }
       doubleeffective = {
             "fire": ["grass", "ice", "bug"],
@@ -170,7 +173,10 @@ let Pokemon = (function Pokemon() {
             "flying": ["grass", "fighting", "bug"],
             "bug": ["grass", "poison", "psychic"],
             "poison": ["grass", "bug"],
-            "ice": ["grass", "ground", "flying", "dragon"]
+            "ice": ["grass", "ground", "flying", "dragon"],
+            "dark": ["psychic", "ghost"],
+            "steel": ["ice", "rock", "fairy"],
+            "fairy": ["fighting", "dragon", "dark"]
           }
 
           zeroeffective = {
@@ -188,7 +194,10 @@ let Pokemon = (function Pokemon() {
             "flying": [""],
             "bug": [""],
             "poison": [""],
-            "ice": [""]
+            "ice": [""],
+            "dark": [""],
+            "steel": [""],
+            "fairy": [""]
           }
 
       if (defender.type.includes("")){

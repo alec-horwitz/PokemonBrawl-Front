@@ -8,10 +8,15 @@ class Battle {
   }
 
   renderMatch() {
+    if (!firstplaydone){
     this.pokemon1.health = 250
+    }
     this.pokemon2.health = 250
     this.pokemon2.pointsOnWin = this.pokemon2.health
     return `
+    <audio autoplay loop>
+      <source src="audio/battle.mp3">
+    </audio>
     <div id="pokemon-1" class="battle-frame-1">
         <img id="back" src="${this.pokemon1.backImage}">
       <div class="name-frame-1">
